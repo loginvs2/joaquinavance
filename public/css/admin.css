@@ -6,22 +6,27 @@
   width: 100%; /* Asegurar que ocupe todo el ancho */
   background-color: #1e3a8a; /* Azul oscuro */
   color: white; /* Texto en blanco */
-  text-align: center;
-  padding: 20px 0; /* Espaciado vertical */
+  text-align: left; /* Alinear todo el contenido a la izquierda */
+  padding: 20px; /* Espaciado interno */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 1000; /* Asegurar que esté por encima de otros elementos */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente alargada */
 }
 
 .page-header h2 {
   margin: 0;
   font-size: 24px;
   font-weight: bold;
+  letter-spacing: 1.5px; /* Espaciado entre letras para un efecto más alargado */
+  text-align: left; /* Asegurar que el título esté alineado a la izquierda */
 }
 
 .page-header p {
   margin: 5px 0 0;
   font-size: 16px;
   color: white; /* Asegurar que el texto del nombre también sea blanco */
+  letter-spacing: 1px; /* Espaciado entre letras */
+  text-align: left; /* Asegurar que el texto esté alineado a la izquierda */
 }
 
 /* Ajustar el contenido para que no quede oculto detrás del header */
@@ -128,7 +133,7 @@ button:hover {
   position: fixed;
   bottom: 0;
   width: 100%;
-  background-color: #1e3a8a;
+  background-color: white; /* Fondo blanco */
   padding: 10px 0;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -137,17 +142,23 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: white;
+  color: gray; /* Iconos y texto en gris */
   text-decoration: none;
-  font-size: 14px;
+  font-size: 12px; /* Reducir el tamaño del texto */
   transition: color 0.3s ease;
 }
 
 .admin-nav .nav-item i {
-  font-size: 24px;
+  font-size: 24px; /* Tamaño del icono */
   margin-bottom: 5px;
 }
 
+.admin-nav .nav-item.active,
 .admin-nav .nav-item:hover {
-  color: #60a5fa; /* Azul más claro */
+  color: #1e3a8a; /* Azul oscuro para el icono y texto activo */
+}
+
+.admin-nav .nav-item.active i,
+.admin-nav .nav-item:hover i {
+  color: #1e3a8a; /* Azul oscuro para el icono activo */
 }
