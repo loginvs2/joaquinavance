@@ -296,6 +296,65 @@ app.post('/deuda', (req, res) => {
   );
 });
 
+app.get('/api/clientes-deudas', (req, res) => {
+  const dni = req.query.dni;
+
+  let query = `
+    SELECT cliente.nombre_cliente, deuda.monto_inicial, deuda.monto_deuda
+    FROM cliente
+    LEFT JOIN deuda ON cliente.id_cliente = deuda.id_cliente
+  `;
+  const params = [];
+
+  if (dni) {
+    query += ' WHERE cliente.dni_cliente = ?';
+    params.push(dni);
+  }
+
+  db.query(query, params, (err, resultados) => {
+    if (err) {
+      console.error('Error al obtener clientes y deudas:', err);
+      return res.json({ success: false, error: 'Error al obtener datos' });
+    }
+
+    res.json({ success: true, resultados });
+  });
+});
+
+// Ruta para la vista de Clientes y Deudas
+app.get('/clientes-deudas', (req, res) => {
+  if (req.session.user?.tipo_usuario === 'administrador') {
+    res.render('clientes-deudas', { user: req.session.user });
+  } else {
+    res.redirect('/');
+  }
+});
+
+// Rutas para las otras opciones (por ahora en blanco)
+app.get('/op2', (req, res) => {
+  if (req.session.user?.tipo_usuario === 'administrador') {
+    res.send('<h1>Opción 2</h1>');
+  } else {
+    res.redirect('/');
+  }
+});
+
+app.get('/op3', (req, res) => {
+  if (req.session.user?.tipo_usuario === 'administrador') {
+    res.send('<h1>Opción 3</h1>');
+  } else {
+    res.redirect('/');
+  }
+});
+
+app.get('/op4', (req, res) => {
+  if (req.session.user?.tipo_usuario === 'administrador') {
+    res.send('<h1>Opción 4</h1>');
+  } else {
+    res.redirect('/');
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor iniciado en http://localhost:${PORT}`);
 });

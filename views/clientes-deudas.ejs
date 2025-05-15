@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Clientes y Deudas</title>
+  <link rel="stylesheet" href="/css/clientes-deudas.css">
+  <script>
+    async function buscarClientePorDNI(event) {
+      event.preventDefault();
+      const dni = document.getElementById('dni_buscar').value;
+      const tabla = document.getElementById('tabla_clientes');
+      tabla.innerHTML = ''; // Limpiar la tabla antes de actualizar
+
+      const response = await fetch(`/api/clientes-deudas?dni=${dni}`);
+      const data = await response.json();
+
+      if (data.success) {
+        data.resultados.forEach(cliente => {
+          const fila = document.createElement('tr');
+          fila.innerHTML = `
+            <td>${cliente.nombre_cliente}</td>
+            <td>S/.${cliente.monto_inicial}</td>
+            <td>S/.${cliente.monto_deuda}</td>
+          `;
+          tabla.appendChild(fila);
+        });
+      } else {
+        tabla.innerHTML = '<tr><td colspan="3">No se encontraron resultados</td></tr>';
+      }
+    }
+
+    async function cargarTodosLosClientes() {
+      const tabla = document.getElementById('tabla_clientes');
+      tabla.innerHTML = ''; // Limpiar la tabla antes de actualizar
+
+      const response = await fetch('/api/clientes-deudas');
+      const data = await response.json();
+
+      if (data.success) {
+        data.resultados.forEach(cliente => {
+          const fila = document.createElement('tr');
+          fila.innerHTML = `
+            <td>${cliente.nombre_cliente}</td>
+            <td>S/.${cliente.monto_inicial}</td>
+            <td>S/.${cliente.monto_deuda}</td>
+          `;
+          tabla.appendChild(fila);
+        });
+      } else {
+        tabla.innerHTML = '<tr><td colspan="3">No se encontraron resultados</td></tr>';
+      }
+    }
+
+    // Cargar todos los clientes al cargar la página
+    window.onload = cargarTodosLosClientes;
+  </script>
+</head>
+<body>
+  <h2>Clientes y Deudas</h2>
+
+  <!-- Formulario para buscar por DNI -->
+  <form onsubmit="buscarClientePorDNI(event)" style="margin-bottom: 20px;">
+    <label for="dni_buscar">Buscar por DNI:</label>
+    <input type="text" id="dni_buscar" placeholder="Ingrese DNI">
+    <button type="submit">Buscar</button>
+  </form>
+
+  <!-- Tabla para mostrar clientes y deudas -->
+  <table border="1" style="width: 100%; text-align: left;">
+    <thead>
+      <tr>
+        <th>Nombre del Cliente</th>
+        <th>Monto Inicial</th>
+        <th>Monto Deuda</th>
+      </tr>
+    </thead>
+    <tbody id="tabla_clientes">
+      <!-- Aquí se cargarán los datos dinámicamente -->
+    </tbody>
+  </table>
+</body>
+</html>

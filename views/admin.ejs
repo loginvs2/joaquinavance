@@ -6,6 +6,14 @@
   <link rel="stylesheet" href="/css/admin.css">
 </head>
 <body>
-  <h2>Bienvenido Administrador: <%= user.nombre_usuario %> </h2>
+  <h2>Bienvenido Administrador: <%= user.nombre_usuario %></h2>
+
+  <!-- Botones principales -->
+  <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px; max-width: 300px; margin: auto;">
+    <button onclick="window.location.href='/clientes-deudas'" style="padding: 10px;">Clientes y Deudas</button>
+    <button onclick="window.location.href='/op2'" style="padding: 10px;">Op2</button>
+    <button onclick="window.location.href='/op3'" style="padding: 10px;">Op3</button>
+    <button onclick="window.location.href='/op4'" style="padding: 10px;">Op4</button>
+  </div>
 </body>
 </html>
