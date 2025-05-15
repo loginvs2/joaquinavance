@@ -82,6 +82,14 @@ app.get('/admin', (req, res) => {
   }
 });
 
+app.get('/admin2', (req, res) => {
+  if (req.session.user?.tipo_usuario === 'administrador') {
+    res.render('admin2', { user: req.session.user });
+  } else {
+    res.redirect('/');
+  }
+});
+
 app.get('/trabajador', (req, res) => {
   if (req.session.user?.tipo_usuario === 'trabajador') {
     res.render('trabajador', { user: req.session.user });
@@ -121,7 +129,7 @@ app.post('/prestamo', (req, res) => {
       }
 
       db.query(
-        'INSERT INTO cliente (nombre_cliente, dni_cliente, telefono_cliente, direccion_cliente) VALUES (?, ?, ?, ?)',
+        'INSERT INTO cliente (nombre_cliente, dni_cliente, telefono_cliente, direccion_cliente) VALUES (?, ?, ?, ?, ?)',
         [nombre_cliente, dni_cliente, telefono_cliente, direccion_cliente],
         (err, result) => {
           if (err) {
