@@ -64,3 +64,18 @@ button {
 button:hover {
   background: linear-gradient(to right, #1e40af, #2563eb);
 }
+
+@media (max-width: 768px) {
+  .icon-button {
+    height: 120px; /* Aumentar la altura de los botones */
+    font-size: 28px; /* Aumentar el tamaño del texto */
+  }
+
+  .icon-button i {
+    font-size: 48px; /* Aumentar el tamaño del icono */
+  }
+
+  .button-grid {
+    gap: 30px; /* Aumentar el espacio entre los botones */
+  }
+}
