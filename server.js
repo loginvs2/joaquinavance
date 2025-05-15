@@ -6,6 +6,7 @@ const path = require('path');
 const db = require('./db');
 const multer = require('multer');
 const { DateTime } = require('luxon');
+const MySQLStore = require('express-mysql-session')(session);
 
 const horaPeru = DateTime.now()
   .setZone('America/Lima')
@@ -20,11 +21,21 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static('uploads'));
 
+// Configuración del almacén de sesiones
+const sessionStore = new MySQLStore({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT
+});
 
+// Configuración de express-session
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET, // Cambia esto por una cadena secreta segura
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: false,
+  store: sessionStore // Usar el almacén de sesiones MySQL
 }));
 
 app.get('/', (req, res) => {
