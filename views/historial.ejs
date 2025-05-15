@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>historial</title>
+    <link rel="stylesheet" href="/css/historial.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Historial de Pagos</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Trabajador</th>
+                    <th>Cliente</th>
+                    <th>Monto Pagado (S/.)</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (pagos && pagos.length> 0) { %>
+                    <% pagos.forEach(pago=> { %>
+                        <tr>
+                            <td data-label="Trabajador">
+                                <%= pago.nombre_trabajador %>
+                            </td>
+                            <td data-label="Cliente">
+                                <%= pago.nombre_cliente %>
+                            </td>
+                            <td data-label="Monto Pagado">S/. <%= Number(pago.monto_pagado).toFixed(2) %>
+                            </td>
+                            <td data-label="Fecha">
+                                <%= DateTime.fromJSDate(pago.fecha_pago).toFormat('dd/MM/yyyy hh:mm a') %>
+                            </td>
+                        </tr>
+                        <% }); %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="4">No hay pagos registrados.</td>
+                                </tr>
+                                <% } %>
+            </tbody>
+
+        </table>
+    </div>
+
+    <%- include('partials/bottom-nav', { active: 'historial' }) %>
+</body>
+
+</html>

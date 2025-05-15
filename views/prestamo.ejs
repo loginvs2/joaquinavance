@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrar Cliente</title>
+  <link rel="stylesheet" href="/css/prestamo.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <script>
+    async function registrarCliente(event) {
+      event.preventDefault();
+
+      const form = document.getElementById('form_registro');
+      const mensajeDiv = document.getElementById('mensaje');
+
+      // Crear un objeto con los datos del formulario
+      const formData = {
+        nombre_cliente: form.nombre_cliente.value,
+        dni_cliente: form.dni_cliente.value,
+        telefono_cliente: form.telefono_cliente.value,
+        direccion_cliente: form.direccion_cliente.value,
+      };
+
+      // Enviar los datos como JSON
+      const response = await fetch('/prestamo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        mensajeDiv.textContent = 'Cliente registrado correctamente.';
+        mensajeDiv.style.color = 'green';
+        form.reset(); // Limpiar los campos del formulario
+      } else {
+        mensajeDiv.textContent = result.error || 'Error al registrar el cliente.';
+        mensajeDiv.style.color = 'red';
+      }
+    }
+  </script>
+</head>
+<body>
+  <form id="form_registro" onsubmit="registrarCliente(event)">
+    <h2>Registrar Cliente</h2>
+
+    <div id="mensaje" style="margin-bottom: 10px; font-size: 14px;"></div>
+
+    <label for="nombre">Nombre del Cliente:</label>
+    <input type="text" id="nombre" name="nombre_cliente" required>
+
+    <label for="dni">DNI:</label>
+    <input type="text" id="dni" name="dni_cliente" required>
+
+    <label for="telefono">Teléfono:</label>
+    <input type="text" id="telefono" name="telefono_cliente" required>
+
+    <label for="direccion">Dirección:</label>
+    <input type="text" id="direccion" name="direccion_cliente" required>
+
+    <button type="submit">Registrar Cliente</button>
+  </form>
+  <%- include('partials/bottom-nav', { active: 'prestamo' }) %>
+</body>
+</html>

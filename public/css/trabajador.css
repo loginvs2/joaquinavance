@@ -1,0 +1,132 @@
+body {
+  background-color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  min-height: 100vh;
+  margin: 0;
+}
+
+h2, h3 {
+  text-align: center;
+  color: #0f172a;
+  margin-bottom: 10px;
+}
+
+form {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 400px;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  margin-bottom: 40px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  color: #1e3a8a;
+  font-weight: 500;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="file"],
+select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #f6f9fc;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(to right, #1e3a8a, #3b82f6);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: linear-gradient(to right, #1e40af, #2563eb);
+}
+
+#cliente_nombre {
+  font-weight: bold;
+  color: #0f172a;
+  margin-bottom: 16px;
+}
+
+#mensaje {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+#comprobante_div {
+  margin-top: 10px;
+}
+
+/* Estilo para el bottom-nav */
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #1e3a8a; /* Azul oscuro */
+  padding: 10px 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #ffffff; /* Blanco */
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.nav-item i {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.nav-item.active {
+  color: #3b82f6; /* Azul claro */
+}
+
+.nav-item:hover {
+  color: #60a5fa; /* Azul más claro */
+}
+
+@media (max-width: 400px) {
+  form {
+    padding: 25px 20px;
+  }
+
+  h2, h3 {
+    font-size: 20px;
+  }
+
+  input, select, button {
+    font-size: 14px;
+  }
+}

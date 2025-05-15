@@ -1,0 +1,153 @@
+body {
+  margin: 0;
+  padding: 40px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f4f8;
+  text-align: center;
+}
+
+h2 {
+  color: #1e3a8a;
+  font-size: 26px;
+  margin-bottom: 30px;
+}
+
+/* CONTENEDOR CAPTURABLE */
+#comprobante-capturable {
+  background: linear-gradient(to bottom right, #1e3a8a, #3b82f6);
+  padding: 24px;
+  border-radius: 20px;
+  display: inline-block;
+  max-width: 480px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* PANEL BLANCO INTERNO */
+#comprobante-panel {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  text-align: left;
+}
+
+/* TITULO */
+.titulo {
+  text-align: center;
+  font-size: 18px;
+  color: #1e3a8a;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* CAMPOS */
+.campo {
+  margin-bottom: 16px;
+}
+
+.label {
+  display: block;
+  font-size: 13px;
+  color: #3b82f6;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.valor {
+  font-size: 15px;
+  color: #0f172a;
+}
+
+/* MONTO DESTACADO */
+.monto-pago {
+  text-align: center;
+}
+
+.monto {
+  font-size: 28px;
+  font-weight: bold;
+  color: #10b981;
+}
+
+/* IMAGEN COMPROBANTE */
+.imagen-comprobante {
+  display: block;
+  margin-top: 8px;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* BOTON */
+button {
+  margin-top: 30px;
+  padding: 14px;
+  width: 100%;
+  max-width: 400px;
+  background: linear-gradient(to right, #1e3a8a, #3b82f6);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: linear-gradient(to right, #1e40af, #2563eb);
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  h2 {
+    font-size: 22px;
+  }
+
+  .monto {
+    font-size: 24px;
+  }
+
+  #comprobante-capturable {
+    padding: 16px;
+  }
+
+  #comprobante-panel {
+    padding: 16px;
+  }
+
+  button {
+    font-size: 14px;
+  }
+}
+.boton-descarga {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.boton-descarga button {
+  padding: 14px;
+  width: 100%;
+  max-width: 400px;
+  background: linear-gradient(to right, #1e3a8a, #3b82f6);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.boton-descarga button:hover {
+  background: linear-gradient(to right, #1e40af, #2563eb);
+}
+
+@media (max-width: 480px) {
+  .boton-descarga button {
+    font-size: 14px;
+  }
+}

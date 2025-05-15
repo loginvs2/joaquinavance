@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Comprobante de Pago</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/comprobante.css">
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+
+<body>
+  <h2>Comprobante de Pago</h2>
+
+  <!-- Contenedor capturable (solo esto se convierte en imagen) -->
+  <div id="comprobante-capturable">
+    <div id="comprobante-panel">
+      <h3 class="titulo">Pago realizado con éxito</h3>
+
+      <div class="campo">
+        <span class="label">Cliente</span>
+        <span class="valor">
+          <%= pago.nombre_cliente %>
+        </span>
+      </div>
+
+      <div class="campo">
+        <span class="label">DNI</span>
+        <span class="valor">
+          <%= pago.dni_cliente %>
+        </span>
+      </div>
+
+      <div class="campo monto-pago">
+        <span class="label">Monto Pagado</span>
+        <span class="monto">S/ <%= pago.monto_pagado %></span>
+      </div>
+
+      <div class="campo">
+        <span class="label">Deuda Restante</span>
+        <span class="valor">S/ <%= pago.monto_deuda %></span>
+      </div>
+
+      <div class="campo">
+        <span class="label">Método de Pago</span>
+        <span class="valor">
+          <%= pago.comprobante_pago==='efectivo' ? 'Efectivo' : 'Yape' %>
+        </span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Botón fuera del área de captura -->
+  <div class="boton-descarga">
+    <button onclick="descargarOCompartir()">Descargar o Compartir</button>
+  </div>
+
+  <script>
+    async function descargarOCompartir() {
+      console.log("Botón presionado");
+      const area = document.getElementById('comprobante-capturable');
+
+      // Guardar estilo original
+      const originalBorderRadius = area.style.borderRadius;
+
+      // Remover border-radius para que el fondo azul sea rectangular
+      area.style.borderRadius = '0';
+      
+      // Tomar la captura
+      const canvas = await html2canvas(area);
+
+      // Restaurar border-radius original
+      area.style.borderRadius = originalBorderRadius;
+
+      const dataUrl = canvas.toDataURL('image/png');
+
+      if (window.AndroidInterface) {
+        const base64Image = dataUrl.split(',')[1];
+        window.AndroidInterface.shareImage(base64Image);
+      } else {
+        const link = document.createElement('a');
+        link.download = 'comprobante_pago.png';
+        link.href = dataUrl;
+        link.click();
+      }
+    }   
+  </script>
+</body>
+
+</html>

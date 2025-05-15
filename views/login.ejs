@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+  <form method="POST" action="/login">
+    <h2>Iniciar Sesión</h2>
+
+    <!-- Mostrar mensaje de error si existe -->
+    <% if (typeof error !== 'undefined') { %>
+      <p style="color: red; font-size: 14px;"><%= error %></p>
+    <% } %>
+
+    <label for="usuario">Usuario</label>
+    <input type="text" id="usuario" name="dni" placeholder="Usuario" required />
+    
+    <label for="contraseña">Contraseña</label>
+    <input type="password" id="contraseña" name="contraseña" placeholder="Contraseña" required />
+    
+    <button type="submit">Ingresar</button>
+  </form>
+</body>
+</html>
