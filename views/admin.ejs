@@ -4,16 +4,25 @@
   <meta charset="UTF-8">
   <title>Admin</title>
   <link rel="stylesheet" href="/css/admin.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
   <h2>Bienvenido Administrador: <%= user.nombre_usuario %></h2>
 
   <!-- Botones principales -->
-  <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px; max-width: 300px; margin: auto;">
-    <button onclick="window.location.href='/clientes-deudas'" style="padding: 10px;">Clientes y Deudas</button>
-    <button onclick="window.location.href='/op2'" style="padding: 10px;">Op2</button>
-    <button onclick="window.location.href='/op3'" style="padding: 10px;">Op3</button>
-    <button onclick="window.location.href='/op4'" style="padding: 10px;">Op4</button>
+  <div class="button-grid">
+    <button onclick="window.location.href='/clientes-deudas'" class="icon-button">
+      <i class="fas fa-users"></i>
+    </button>
+    <button onclick="window.location.href='/op2'" class="icon-button">
+      <i class="fas fa-cogs"></i>
+    </button>
+    <button onclick="window.location.href='/op3'" class="icon-button">
+      <i class="fas fa-chart-bar"></i>
+    </button>
+    <button onclick="window.location.href='/op4'" class="icon-button">
+      <i class="fas fa-folder"></i>
+    </button>
   </div>
 </body>
 </html>
