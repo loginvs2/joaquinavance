@@ -1,13 +1,15 @@
 /* Estilo para el cabezal */
 .page-header {
+  position: fixed; /* Fijar el header en la parte superior */
+  top: 0;
+  left: 0;
+  width: 100%; /* Asegurar que ocupe todo el ancho */
   background-color: #1e3a8a; /* Azul oscuro */
   color: white; /* Texto en blanco */
   text-align: center;
-  padding: 20px;
+  padding: 20px 0; /* Espaciado vertical */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-  width: 100%; /* Asegurar que ocupe todo el ancho */
-  box-sizing: border-box;
+  z-index: 1000; /* Asegurar que esté por encima de otros elementos */
 }
 
 .page-header h2 {
@@ -22,6 +24,7 @@
   color: white; /* Asegurar que el texto del nombre también sea blanco */
 }
 
+/* Ajustar el contenido para que no quede oculto detrás del header */
 body {
   background-color: #ffffff;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -33,6 +36,7 @@ body {
   margin: 0;
   padding: 20px;
   box-sizing: border-box;
+  padding-top: 80px; /* Espacio para el header fijo */
 }
 
 h2 {
