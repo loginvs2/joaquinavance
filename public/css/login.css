@@ -1,25 +1,58 @@
-
+* {
+    -webkit-user-select: none; /* Evita la selección en WebKit (Android WebView) */
+    -webkit-tap-highlight-color: transparent; /* Elimina el resaltado azul/celeste */
+    user-select: none; /* Previene selección en navegadores modernos */
+}
 body {
-  background-color: #ffffff;
+  background-color: #fff;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   margin: 0;
-  padding: 20px;
+  padding: 80px 0 0 0; /* Espacio para el header fijo */
+  min-height: 100vh;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Responsividad para el cabezal */
+@media (max-width: 768px) {
+  .page-header h1, .page-header h2 {
+    font-size: 20px;
+  }
+  .page-header p {
+    font-size: 14px;
+  }
+}
+
+.container-form {
+  width: 100%;
+  max-width: 400px; /* O 1000px para tablas */
+  margin: 0 auto;
+  padding: 32px 16px 24px 16px;
+  box-sizing: border-box;
+  background: #fff;
 }
 
 form {
   background-color: #ffffff;
   width: 100%;
-  max-width: 360px;
-  padding: 40px 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  max-width: none;
+  padding: 24px 10px 24px 10px;
+  border-radius: 0;
+  box-shadow: none;
   box-sizing: border-box;
   text-align: left;
+  margin: 0;
+}
+.container-form h2 {
+  margin-top: 8px; /* Espacio extra si lo deseas */
+}
+
+h2, h3 {
+  text-align: center;
+  color: #0f172a;
+  margin-bottom: 10px;
 }
 
 h2 {
@@ -36,7 +69,9 @@ label {
   font-weight: 500;
 }
 
-input {
+input,
+textarea,
+select {
   width: 100%;
   padding: 12px;
   margin-bottom: 20px;
@@ -45,6 +80,11 @@ input {
   background-color: #f6f9fc;
   font-size: 14px;
   box-sizing: border-box;
+}
+
+textarea {
+  resize: none;
+  height: 100px;
 }
 
 button {
@@ -64,7 +104,25 @@ button:hover {
   background: linear-gradient(to right, #1e40af, #2563eb);
 }
 
-/* RESPONSIVE: Ajustes para móviles pequeños */
+p {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 500px) {
+  .container-form {
+    padding: 18px 4px 16px 4px;
+    max-width: 100%;
+  }
+  .page-header h1, .page-header h2 {
+    font-size: 20px;
+  }
+  input, textarea, button, select {
+    font-size: 14px;
+  }
+}
+
 @media (max-width: 400px) {
   form {
     padding: 30px 20px;
@@ -75,6 +133,7 @@ button:hover {
   }
 
   input,
+  textarea,
   button {
     font-size: 14px;
   }

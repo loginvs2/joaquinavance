@@ -1,3 +1,8 @@
+* {
+    -webkit-user-select: none; /* Evita la selección en WebKit (Android WebView) */
+    -webkit-tap-highlight-color: transparent; /* Elimina el resaltado azul/celeste */
+    user-select: none; /* Previene selección en navegadores modernos */
+}
 /* Estilo para el cabezal */
 .page-header {
   position: fixed; /* Fijar el header en la parte superior */

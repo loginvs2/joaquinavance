@@ -1,3 +1,9 @@
+* {
+    -webkit-user-select: none; /* Evita la selección en WebKit (Android WebView) */
+    -webkit-tap-highlight-color: transparent; /* Elimina el resaltado azul/celeste */
+    user-select: none; /* Previene selección en navegadores modernos */
+}
+
 body {
   margin: 0;
   padding: 40px 20px;
