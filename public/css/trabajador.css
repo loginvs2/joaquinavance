@@ -1,4 +1,10 @@
-/* Header fijo para trabajador, igual que en admin.css */
+
+* {
+    -webkit-user-select: none; /* Evita la selección en WebKit (Android WebView) */
+    -webkit-tap-highlight-color: transparent; /* Elimina el resaltado azul/celeste */
+    user-select: none; /* Previene selección en navegadores modernos */
+}
+
 .page-header {
   position: fixed;
   top: 0;
