@@ -156,7 +156,7 @@ textarea {
 button {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(to right, #1e3a8a, #3b82f6);
+  background: linear-gradient(to right, #8a1e1e, #f63b3b);
   border: none;
   border-radius: 12px;
   color: white;
@@ -167,7 +167,7 @@ button {
 }
 
 button:hover {
-  background: linear-gradient(to right, #1e40af, #2563eb);
+  background: linear-gradient(to right, #af1e1e, #eb2525);
 }
 
 p {
