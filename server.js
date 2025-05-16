@@ -129,7 +129,7 @@ app.post('/prestamo', (req, res) => {
       }
 
       db.query(
-        'INSERT INTO cliente (nombre_cliente, dni_cliente, telefono_cliente, direccion_cliente) VALUES (?, ?, ?, ?, ?)',
+        'INSERT INTO cliente (nombre_cliente, dni_cliente, telefono_cliente, direccion_cliente) VALUES (?, ?, ?, ?)',
         [nombre_cliente, dni_cliente, telefono_cliente, direccion_cliente],
         (err, result) => {
           if (err) {
@@ -361,6 +361,66 @@ app.get('/op4', (req, res) => {
   } else {
     res.redirect('/');
   }
+});
+
+// Vista principal de pagos del día (solo administrador)
+app.get('/pagosdia', (req, res) => {
+  if (req.session.user?.tipo_usuario === 'administrador') {
+    res.render('pagosdia', { user: req.session.user, horaPeru });
+  } else {
+    res.redirect('/');
+  }
+});
+
+// API para obtener pagos filtrados (solo administrador)
+app.get('/api/pagosdia', (req, res) => {
+  if (req.session.user?.tipo_usuario !== 'administrador') {
+    return res.status(403).json({ success: false, error: 'No autorizado' });
+  }
+
+  const { dni, fecha } = req.query;
+  let query = `
+    SELECT cliente.nombre_cliente, usuario.nombre_usuario, pago.monto_pagado, deuda.monto_deuda, pago.fecha_pago
+    FROM pago
+    JOIN deuda ON pago.id_deuda = deuda.id_deuda
+    JOIN cliente ON deuda.id_cliente = cliente.id_cliente
+    JOIN usuario ON pago.id_usuario = usuario.id_usuario
+    WHERE 1=1
+  `;
+  const params = [];
+
+  // Si el usuario ingresó un DNI (usuario)
+  if (dni && dni.trim() !== '') {
+    query += ' AND usuario.dni_usuario = ?';
+    params.push(dni);
+  }
+
+  // Si el usuario ingresó una fecha válida
+  if (fecha && fecha.trim() !== '') {
+    const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+    const match = fecha.match(regex);
+    if (!match) {
+      return res.json({ success: false, error: 'Formato de fecha incorrecto. Use dd/mm/yyyy.' });
+    }
+    const fechaFiltro = `${match[3]}-${match[2]}-${match[1]}`;
+    query += ' AND DATE(pago.fecha_pago) = ?';
+    params.push(fechaFiltro);
+  }
+
+  // Si no hay filtros, mostrar solo los pagos del día actual
+  if ((!dni || dni.trim() === '') && (!fecha || fecha.trim() === '')) {
+    const fechaHoy = DateTime.now().setZone('America/Lima').toFormat('yyyy-MM-dd');
+    query += ' AND DATE(pago.fecha_pago) = ?';
+    params.push(fechaHoy);
+  }
+
+  db.query(query, params, (err, resultados) => {
+    if (err) {
+      console.error('Error al obtener pagos del día:', err);
+      return res.json({ success: false, error: 'Error al obtener datos' });
+    }
+    res.json({ success: true, resultados });
+  });
 });
 
 app.listen(PORT, () => {

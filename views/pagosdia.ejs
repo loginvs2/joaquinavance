@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Pagos del Día</title>
+  <link rel="stylesheet" href="/css/pagosdia.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <%- include('partials/header', { title: 'Pagos del Día', user: user }) %>
+
+  <div class="pagosdia-container">
+    <div id="mensaje" class="mensaje-error" style="display:none;"></div>
+    <h3 class="filtro-titulo">Filtrar</h3>
+    <form class="filtro-form" onsubmit="filtrarPagos(event)">
+      <div>
+        <label for="dni">DNI</label>
+        <input type="text" id="dni" name="dni" placeholder="Ingrese DNI">
+      </div>
+      <div>
+        <label for="fecha">Fecha</label>
+        <input type="text" id="fecha" name="fecha" placeholder="dd/mm/yyyy (ej: 15/05/2025)">
+      </div>
+      <button type="submit" title="Buscar"><i class="fas fa-search"></i></button>
+    </form>
+
+    <div class="fecha-actual">
+      <span>Mostrando pagos del día: <strong id="fecha-mostrar"></strong></span>
+    </div>
+
+    <table class="tabla-pagos">
+      <thead>
+        <tr>
+          <th>Cliente</th>
+          <th>Trabajador</th>
+          <th>Monto Pagado</th>
+          <th>Monto Deuda</th>
+        </tr>
+      </thead>
+      <tbody id="pagos-tbody">
+        <!-- Aquí se cargan los pagos -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Mostrar la fecha actual de Perú arriba de la tabla
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('fecha-mostrar').textContent = "<%= horaPeru.split(' ')[0].split('-').reverse().join('/') %>";
+      cargarPagos();
+    });
+
+    async function cargarPagos(filtros = {}) {
+      let url = '/api/pagosdia?';
+      if (filtros.dni) url += `dni=${encodeURIComponent(filtros.dni)}&`;
+      if (filtros.fecha) url += `fecha=${encodeURIComponent(filtros.fecha)}&`;
+
+      const res = await fetch(url);
+      const data = await res.json();
+      const tbody = document.getElementById('pagos-tbody');
+      const mensaje = document.getElementById('mensaje');
+      tbody.innerHTML = '';
+      mensaje.style.display = 'none';
+
+      if (!data.success) {
+        mensaje.textContent = data.error || 'Error al obtener los pagos.';
+        mensaje.style.display = 'block';
+        return;
+      }
+
+      if (data.resultados.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4">No hay pagos registrados.</td></tr>';
+        return;
+      }
+
+      data.resultados.forEach(pago => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${pago.nombre_cliente}</td>
+          <td>${pago.nombre_usuario}</td>
+          <td>S/.${parseFloat(pago.monto_pagado).toFixed(2)}</td>
+          <td>S/.${parseFloat(pago.monto_deuda).toFixed(2)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function validarDNI(dni) {
+      return dni === '' || /^\d{8}$/.test(dni);
+    }
+
+    function validarFecha(fecha) {
+      return fecha === '' || /^\d{2}\/\d{2}\/\d{4}$/.test(fecha);
+    }
+
+    async function filtrarPagos(event) {
+      event.preventDefault();
+      const dni = document.getElementById('dni').value.trim();
+      const fecha = document.getElementById('fecha').value.trim();
+      const mensaje = document.getElementById('mensaje');
+
+      if (!validarDNI(dni)) {
+        mensaje.textContent = 'DNI incorrecto. Debe tener 8 dígitos.';
+        mensaje.style.display = 'block';
+        return;
+      }
+      if (!validarFecha(fecha)) {
+        mensaje.textContent = 'Formato de fecha incorrecto. Use dd/mm/yyyy.';
+        mensaje.style.display = 'block';
+        return;
+      }
+
+      await cargarPagos({ dni, fecha });
+
+      // Actualizar la fecha mostrada si se filtra por fecha
+      if (fecha) {
+        document.getElementById('fecha-mostrar').textContent = fecha;
+      } else {
+        document.getElementById('fecha-mostrar').textContent = "<%= horaPeru.split(' ')[0].split('-').reverse().join('/') %>";
+      }
+    }
+  </script>
+</body>
+</html>

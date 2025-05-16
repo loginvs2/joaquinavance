@@ -1,0 +1,95 @@
+.pagosdia-container {
+  max-width: 700px;
+  margin: 100px auto 0 auto;
+  padding: 24px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(30, 58, 138, 0.08);
+}
+
+.filtro-titulo {
+  color: #1e3a8a;
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.filtro-form {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.filtro-form label {
+  font-size: 12px;
+  color: #1e3a8a;
+  font-weight: 500;
+}
+
+.filtro-form input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+.filtro-form button {
+  background: #1e3a8a;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.filtro-form button:hover {
+  background: #2563eb;
+}
+
+.filtro-form button i {
+  font-size: 18px;
+}
+
+.mensaje-error {
+  color: #dc2626;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.fecha-actual {
+  margin-bottom: 10px;
+  color: #1e3a8a;
+  font-size: 15px;
+}
+
+.tabla-pagos {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.tabla-pagos th, .tabla-pagos td {
+  border: 1px solid #d1d5db;
+  padding: 8px;
+  text-align: left;
+}
+
+.tabla-pagos th {
+  background-color: #1e3a8a;
+  color: white;
+}
+
+.tabla-pagos tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+.tabla-pagos tr:hover {
+  background-color: #e5f3ff;
+}
