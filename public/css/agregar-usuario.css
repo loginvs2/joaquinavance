@@ -1,9 +1,55 @@
+/* Header fijo para trabajador, igual que en admin.css */
+.page-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #1e3a8a;
+  color: white;
+  text-align: left;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.page-header h1, .page-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  text-align: left;
+  color: white;
+}
+
+.page-header p {
+  margin: 5px 0 0;
+  font-size: 16px;
+  color: white;
+  letter-spacing: 1px;
+  text-align: left;
+}
+
+/* Ajustar el contenido para que no quede oculto detrás del header */
 body {
-  background-color: #ffffff;
+  background-color: #fff;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
-  padding: 0;
+  padding: 80px 0 0 0; /* Espacio para el header fijo */
+  min-height: 100vh;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container-form {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 32px 16px 24px 16px;
+  box-sizing: border-box;
+  background: #fff;
 }
 
 form {
@@ -16,6 +62,10 @@ form {
   box-sizing: border-box;
   text-align: left;
   margin: 0;
+}
+
+.container-form h2 {
+  margin-top: 8px;
 }
 
 h2 {
@@ -32,7 +82,8 @@ label {
   font-weight: 500;
 }
 
-input, select {
+input,
+select {
   width: 100%;
   padding: 12px;
   margin-bottom: 20px;
@@ -64,6 +115,24 @@ button:hover {
   background: linear-gradient(to right, #1e40af, #2563eb);
 }
 
+#mensaje {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+@media (max-width: 500px) {
+  .container-form {
+    padding: 18px 4px 16px 4px;
+    max-width: 100%;
+  }
+  .page-header h1, .page-header h2 {
+    font-size: 20px;
+  }
+  input, button, select {
+    font-size: 14px;
+  }
+}
+
 @media (max-width: 400px) {
   form {
     padding: 18px 2px;
@@ -77,21 +146,5 @@ button:hover {
   button,
   select {
     font-size: 14px;
-  }
-}
-
-/* Puedes agregar esto al final de cada CSS de formulario, por ejemplo: agregar-usuario.css, eliminar-usuario.css, eliminar-cliente.css, prestamo.css */
-.container-form {
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 32px 16px 24px 16px; /* Espacio arriba, laterales y abajo */
-  box-sizing: border-box;
-}
-
-@media (max-width: 500px) {
-  .container-form {
-    padding: 18px 4px 16px 4px;
-    max-width: 100%;
   }
 }
