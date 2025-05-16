@@ -10,47 +10,51 @@
 </head>
 
 <body>
-  <%- include('partials/headertrabajador', { title: 'HISTORIAL', user: user }) %>
-    <div class="container-form">
-        <h2>Historial de Pagos</h2>
+    <%- include('partials/headertrabajador', { title: 'HISTORIAL' , user: user }) %>
+        <div class="container-form">
+            <div class="container-form">
+                <form>
+                    <h2>Historial de Pagos</h2>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Trabajador</th>
-                    <th>Cliente</th>
-                    <th>Monto Pagado (S/.)</th>
-                    <th>Fecha</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% if (pagos && pagos.length> 0) { %>
-                    <% pagos.forEach(pago=> { %>
-                        <tr>
-                            <td data-label="Trabajador">
-                                <%= pago.nombre_trabajador %>
-                            </td>
-                            <td data-label="Cliente">
-                                <%= pago.nombre_cliente %>
-                            </td>
-                            <td data-label="Monto Pagado">S/. <%= Number(pago.monto_pagado).toFixed(2) %>
-                            </td>
-                            <td data-label="Fecha">
-                                <%= DateTime.fromJSDate(pago.fecha_pago).toFormat('dd/MM/yyyy hh:mm a') %>
-                            </td>
-                        </tr>
-                        <% }); %>
-                            <% } else { %>
-                                <tr>
-                                    <td colspan="4">No hay pagos registrados.</td>
-                                </tr>
-                                <% } %>
-            </tbody>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Trabajador</th>
+                                <th>Cliente</th>
+                                <th>Monto Pagado (S/.)</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (pagos && pagos.length> 0) { %>
+                                <% pagos.forEach(pago=> { %>
+                                    <tr>
+                                        <td data-label="Trabajador">
+                                            <%= pago.nombre_trabajador %>
+                                        </td>
+                                        <td data-label="Cliente">
+                                            <%= pago.nombre_cliente %>
+                                        </td>
+                                        <td data-label="Monto Pagado">S/. <%= Number(pago.monto_pagado).toFixed(2) %>
+                                        </td>
+                                        <td data-label="Fecha">
+                                            <%= DateTime.fromJSDate(pago.fecha_pago).toFormat('dd/MM/yyyy hh:mm a') %>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="4">No hay pagos registrados.</td>
+                                            </tr>
+                                            <% } %>
+                        </tbody>
 
-        </table>
-    </div>
+                    </table>
+                </form>
+            </div>
+        </div>
 
-    <%- include('partials/bottom-nav', { active: 'historial' }) %>
+            <%- include('partials/bottom-nav', { active: 'historial' }) %>
 </body>
 
 </html>
