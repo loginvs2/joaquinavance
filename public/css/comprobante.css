@@ -6,6 +6,11 @@ body {
   text-align: center;
 }
 
+@media (max-width: 480px) {
+  body {
+    padding: 16px 4px;
+  }
+}
 h2 {
   color: #ffffff;
   font-size: 26px;
