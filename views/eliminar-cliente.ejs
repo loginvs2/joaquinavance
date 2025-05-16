@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eliminar Cliente</title>
+  <link rel="stylesheet" href="/css/eliminar-cliente.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <script>
+    async function eliminarCliente(event) {
+      event.preventDefault();
+      const dni = document.getElementById('dni_cliente').value.trim();
+      const mensajeDiv = document.getElementById('mensaje');
+
+      if (!/^\d{8}$/.test(dni)) {
+        mensajeDiv.textContent = 'Ingrese un DNI válido de 8 dígitos.';
+        mensajeDiv.style.color = 'red';
+        return;
+      }
+
+      const response = await fetch('/eliminar-cliente', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ dni_cliente: dni })
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        mensajeDiv.textContent = 'Cliente eliminado correctamente.';
+        mensajeDiv.style.color = 'green';
+        document.getElementById('form_eliminar').reset();
+      } else {
+        mensajeDiv.textContent = result.error || 'Error al eliminar el cliente.';
+        mensajeDiv.style.color = 'red';
+      }
+    }
+  </script>
+</head>
+<body>
+  <form id="form_eliminar" onsubmit="eliminarCliente(event)">
+    <h2>Eliminar Cliente</h2>
+    <div id="mensaje" style="margin-bottom: 10px; font-size: 14px;"></div>
+    <label for="dni_cliente">DNI del Cliente:</label>
+    <input type="text" id="dni_cliente" name="dni_cliente" maxlength="8" required>
+    <button type="submit"><i class="fas fa-user-minus"></i> Eliminar</button>
+  </form>
+</body>
+</html>

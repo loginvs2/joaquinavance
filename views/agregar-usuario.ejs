@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agregar Usuario</title>
+  <link rel="stylesheet" href="/css/agregar-usuario.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <script>
+    async function agregarUsuario(event) {
+      event.preventDefault();
+      const mensajeDiv = document.getElementById('mensaje');
+      mensajeDiv.textContent = '';
+      mensajeDiv.style.color = 'red';
+
+      const dni = document.getElementById('dni_usuario').value.trim();
+      const nombre = document.getElementById('nombre_usuario').value.trim();
+      const tipo = document.getElementById('tipo_usuario').value;
+      const contraseña = document.getElementById('contraseña').value;
+
+      if (!/^\d{8}$/.test(dni)) {
+        mensajeDiv.textContent = 'El DNI debe tener exactamente 8 dígitos numéricos.';
+        return;
+      }
+      if (nombre.length < 3) {
+        mensajeDiv.textContent = 'El nombre debe tener al menos 3 caracteres.';
+        return;
+      }
+      if (!contraseña || contraseña.length < 4) {
+        mensajeDiv.textContent = 'La contraseña debe tener al menos 4 caracteres.';
+        return;
+      }
+
+      const response = await fetch('/agregar-usuario', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ dni_usuario: dni, nombre_usuario: nombre, tipo_usuario: tipo, contraseña })
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        mensajeDiv.style.color = 'green';
+        mensajeDiv.textContent = 'Usuario agregado correctamente.';
+        document.getElementById('form_agregar_usuario').reset();
+      } else {
+        mensajeDiv.textContent = result.error || 'Error al agregar el usuario.';
+      }
+    }
+  </script>
+</head>
+<body>
+  <form id="form_agregar_usuario" onsubmit="agregarUsuario(event)">
+    <h2>Agregar Usuario</h2>
+    <div id="mensaje" style="margin-bottom: 10px; font-size: 14px;"></div>
+
+    <label for="dni_usuario">DNI:</label>
+    <input type="text" id="dni_usuario" name="dni_usuario" maxlength="8" required autocomplete="off">
+
+    <label for="nombre_usuario">Nombre:</label>
+    <input type="text" id="nombre_usuario" name="nombre_usuario" required autocomplete="off">
+
+    <label for="tipo_usuario">Tipo de Usuario:</label>
+    <select id="tipo_usuario" name="tipo_usuario" required>
+      <option value="administrador">Administrador</option>
+      <option value="trabajador">Trabajador</option>
+    </select>
+
+    <label for="contraseña">Contraseña:</label>
+    <input type="password" id="contraseña" name="contraseña" required autocomplete="off">
+
+    <button type="submit"><i class="fas fa-user-plus"></i> Agregar Usuario</button>
+  </form>
+
+</body>
+</html>

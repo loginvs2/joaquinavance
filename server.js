@@ -56,8 +56,10 @@ app.post('/login', (req, res) => {
       const validPassword = contraseña === user.contraseña;
 
       if (validPassword) {
+        if (user.tipo_usuario === 'eliminado') {
+          return res.render('eliminado');
+        }
         req.session.user = user;
-
         if (user.tipo_usuario === 'administrador') {
           return res.redirect('/admin');
         } else if (user.tipo_usuario === 'trabajador') {
@@ -268,17 +270,17 @@ app.post('/deuda', (req, res) => {
   const { id_cliente, monto_deuda, descripcion_deuda, id_usuario } = req.body;
 
   if (!id_cliente) {
-    return res.render('deuda', { 
-      user: req.session.user, 
-      error: 'Cliente no encontrado. Verifique el DNI.' 
+    return res.render('deuda', {
+      user: req.session.user,
+      error: 'Cliente no encontrado. Verifique el DNI.'
     });
   }
 
   const monto = parseFloat(monto_deuda);
   if (isNaN(monto) || monto <= 0) {
-    return res.render('deuda', { 
-      user: req.session.user, 
-      error: 'El monto de la deuda debe ser mayor a 0.' 
+    return res.render('deuda', {
+      user: req.session.user,
+      error: 'El monto de la deuda debe ser mayor a 0.'
     });
   }
 
@@ -290,15 +292,15 @@ app.post('/deuda', (req, res) => {
     (err, result) => {
       if (err) {
         console.error('Error al registrar la deuda:', err);
-        return res.render('deuda', { 
-          user: req.session.user, 
-          error: 'Error al registrar la deuda. Intente nuevamente.' 
+        return res.render('deuda', {
+          user: req.session.user,
+          error: 'Error al registrar la deuda. Intente nuevamente.'
         });
       }
 
-      res.render('deuda', { 
-        user: req.session.user, 
-        success: 'Deuda registrada correctamente.' 
+      res.render('deuda', {
+        user: req.session.user,
+        success: 'Deuda registrada correctamente.'
       });
     }
   );
@@ -421,6 +423,197 @@ app.get('/api/pagosdia', (req, res) => {
     }
     res.json({ success: true, resultados });
   });
+});
+
+app.post('/agregar-cliente', (req, res) => {
+  if (req.session.user?.tipo_usuario !== 'administrador') {
+    return res.status(403).json({ success: false, error: 'No autorizado' });
+  }
+
+  const { nombre_cliente, dni_cliente, telefono_cliente, direccion_cliente } = req.body;
+
+  if (!nombre_cliente || !dni_cliente || !telefono_cliente || !direccion_cliente) {
+    return res.json({ success: false, error: 'Todos los campos son obligatorios.' });
+  }
+
+  // Validar que el DNI tenga exactamente 8 dígitos numéricos
+  if (!/^\d{8}$/.test(dni_cliente)) {
+    return res.json({ success: false, error: 'El DNI debe tener exactamente 8 dígitos numéricos.' });
+  }
+
+  db.query(
+    'SELECT * FROM cliente WHERE dni_cliente = ?',
+    [dni_cliente],
+    (err, results) => {
+      if (err) {
+        console.error('Error al buscar cliente:', err);
+        return res.json({ success: false, error: 'Error al buscar cliente.' });
+      }
+
+      if (results.length > 0) {
+        return res.json({ success: false, error: 'El DNI ya está registrado.' });
+      }
+
+      db.query(
+        'INSERT INTO cliente (nombre_cliente, dni_cliente, telefono_cliente, direccion_cliente) VALUES (?, ?, ?, ?)',
+        [nombre_cliente, dni_cliente, telefono_cliente, direccion_cliente],
+        (err, result) => {
+          if (err) {
+            console.error('Error al registrar cliente:', err);
+            return res.json({ success: false, error: 'Error al registrar cliente.' });
+          }
+
+          res.json({ success: true });
+        }
+      );
+    }
+  );
+});
+
+app.get('/agregar-cliente', (req, res) => {
+  if (req.session.user?.tipo_usuario === 'administrador') {
+    res.render('agregar-cliente', { user: req.session.user });
+  } else {
+    res.redirect('/');
+  }
+});
+
+app.get('/eliminar-cliente', (req, res) => {
+  if (req.session.user?.tipo_usuario === 'administrador') {
+    res.render('eliminar-cliente', { user: req.session.user });
+  } else {
+    res.redirect('/');
+  }
+});
+
+app.post('/eliminar-cliente', (req, res) => {
+  if (req.session.user?.tipo_usuario !== 'administrador') {
+    return res.status(403).json({ success: false, error: 'No autorizado' });
+  }
+
+  const { dni_cliente } = req.body;
+
+  if (!dni_cliente || !/^\d{8}$/.test(dni_cliente)) {
+    return res.json({ success: false, error: 'El DNI debe tener exactamente 8 dígitos numéricos.' });
+  }
+
+  // Solo elimina el cliente, no borra deudas ni pagos relacionados
+  db.query('DELETE FROM cliente WHERE dni_cliente = ?', [dni_cliente], (err, result) => {
+    if (err) {
+      // Si hay error por restricción de clave foránea, muestra mensaje personalizado
+      if (err.code === 'ER_ROW_IS_REFERENCED_2') {
+        return res.json({ success: false, error: 'No se puede eliminar el cliente porque tiene deudas o pagos asociados.' });
+      }
+      console.error('Error al eliminar cliente:', err);
+      return res.json({ success: false, error: 'Error al eliminar cliente.' });
+    }
+    if (result.affectedRows === 0) {
+      return res.json({ success: false, error: 'Cliente no encontrado.' });
+    }
+    res.json({ success: true });
+  });
+});
+
+// Vista para eliminar usuario
+app.get('/eliminar-usuario', (req, res) => {
+  if (req.session.user?.tipo_usuario === 'administrador') {
+    res.render('eliminar-usuario', { user: req.session.user });
+  } else {
+    res.redirect('/');
+  }
+});
+
+// POST para marcar usuario como eliminado
+app.post('/eliminar-usuario', (req, res) => {
+  if (req.session.user?.tipo_usuario !== 'administrador') {
+    return res.status(403).json({ success: false, error: 'No autorizado' });
+  }
+
+  const { dni_usuario } = req.body;
+
+  if (!dni_usuario || !/^\d{8}$/.test(dni_usuario)) {
+    return res.json({ success: false, error: 'El DNI debe tener exactamente 8 dígitos numéricos.' });
+  }
+
+  db.query(
+    'UPDATE usuario SET tipo_usuario = "eliminado" WHERE dni_usuario = ?',
+    [dni_usuario],
+    (err, result) => {
+      if (err) {
+        console.error('Error al eliminar usuario:', err);
+        return res.json({ success: false, error: 'Error al eliminar usuario.' });
+      }
+      if (result.affectedRows === 0) {
+        return res.json({ success: false, error: 'Usuario no encontrado.' });
+      }
+      res.json({ success: true });
+    }
+  );
+});
+
+// Vista para usuario eliminado
+app.get('/eliminado', (req, res) => {
+  res.render('eliminado');
+});
+
+app.get('/agregar-usuario', (req, res) => {
+  if (req.session.user?.tipo_usuario === 'administrador') {
+    res.render('agregar-usuario', { user: req.session.user });
+  } else {
+    res.redirect('/');
+  }
+});
+
+app.post('/agregar-usuario', (req, res) => {
+  if (req.session.user?.tipo_usuario !== 'administrador') {
+    return res.status(403).json({ success: false, error: 'No autorizado' });
+  }
+
+  const { dni_usuario, nombre_usuario, tipo_usuario, contraseña } = req.body;
+
+  if (!dni_usuario || !nombre_usuario || !tipo_usuario || !contraseña) {
+    return res.json({ success: false, error: 'Todos los campos son obligatorios.' });
+  }
+
+  if (!/^\d{8}$/.test(dni_usuario)) {
+    return res.json({ success: false, error: 'El DNI debe tener exactamente 8 dígitos numéricos.' });
+  }
+
+  if (nombre_usuario.length < 3) {
+    return res.json({ success: false, error: 'El nombre debe tener al menos 3 caracteres.' });
+  }
+
+  if (contraseña.length < 4) {
+    return res.json({ success: false, error: 'La contraseña debe tener al menos 4 caracteres.' });
+  }
+
+  db.query(
+    'SELECT * FROM usuario WHERE dni_usuario = ?',
+    [dni_usuario],
+    (err, results) => {
+      if (err) {
+        console.error('Error al buscar usuario:', err);
+        return res.json({ success: false, error: 'Error al buscar usuario.' });
+      }
+
+      if (results.length > 0) {
+        return res.json({ success: false, error: 'El DNI ya está registrado.' });
+      }
+
+      db.query(
+        'INSERT INTO usuario (dni_usuario, nombre_usuario, tipo_usuario, contraseña) VALUES (?, ?, ?, ?)',
+        [dni_usuario, nombre_usuario, tipo_usuario, contraseña],
+        (err, result) => {
+          if (err) {
+            console.error('Error al registrar usuario:', err);
+            return res.json({ success: false, error: 'Error al registrar usuario.' });
+          }
+
+          res.json({ success: true });
+        }
+      );
+    }
+  );
 });
 
 app.listen(PORT, () => {

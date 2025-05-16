@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agregar Cliente</title>
+  <link rel="stylesheet" href="/css/prestamo.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <script>
+    async function agregarCliente(event) {
+      event.preventDefault();
+
+      const form = document.getElementById('form_agregar');
+      const mensajeDiv = document.getElementById('mensaje');
+
+      const formData = {
+        nombre_cliente: form.nombre_cliente.value,
+        dni_cliente: form.dni_cliente.value,
+        telefono_cliente: form.telefono_cliente.value,
+        direccion_cliente: form.direccion_cliente.value,
+      };
+
+      const response = await fetch('/agregar-cliente', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        mensajeDiv.textContent = 'Cliente agregado correctamente.';
+        mensajeDiv.style.color = 'green';
+        form.reset();
+      } else {
+        mensajeDiv.textContent = result.error || 'Error al agregar el cliente.';
+        mensajeDiv.style.color = 'red';
+      }
+    }
+  </script>
+</head>
+<body>
+  <form id="form_agregar" onsubmit="agregarCliente(event)">
+    <h2>Agregar Cliente</h2>
+
+    <div id="mensaje" style="margin-bottom: 10px; font-size: 14px;"></div>
+
+    <label for="nombre">Nombre del Cliente:</label>
+    <input type="text" id="nombre" name="nombre_cliente" required>
+
+    <label for="dni">DNI:</label>
+    <input type="text" id="dni" name="dni_cliente" required>
+
+    <label for="telefono">Teléfono:</label>
+    <input type="text" id="telefono" name="telefono_cliente" required>
+
+    <label for="direccion">Dirección:</label>
+    <input type="text" id="direccion" name="direccion_cliente" required>
+
+    <button type="submit">Agregar Cliente</button>
+  </form>
+  <%- include('partials/admin-nav', { active: 'admin2' }) %>
+</body>
+</html>

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Clientes y Deudas</title>
   <link rel="stylesheet" href="/css/clientes-deudas.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <script>
     async function buscarClientePorDNI(event) {
       event.preventDefault();
@@ -62,7 +63,7 @@
   <form onsubmit="buscarClientePorDNI(event)" style="margin-bottom: 20px;">
     <label for="dni_buscar">Buscar por DNI:</label>
     <input type="text" id="dni_buscar" placeholder="Ingrese DNI">
-    <button type="submit">Buscar</button>
+    <button type="submit" title="Buscar"><i class="fas fa-search"></i></button>
   </form>
 
   <!-- Tabla para mostrar clientes y deudas -->

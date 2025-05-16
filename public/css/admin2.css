@@ -65,21 +65,31 @@ h2 {
   width: 150px; /* Ancho fijo */
   height: 150px; /* Alto fijo */
   font-size: 24px;
-  color: white;
-  background: linear-gradient(to right, #1e3a8a, #3b82f6);
-  border: none;
+  color: #1e3a8a; /* Azul oscuro para el icono */
+  background-color: white; /* Fondo blanco */
+  border: 2px solid #d1d5db; /* Contorno gris */
   border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra mínima */
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: all 0.3s ease; /* Transición suave */
 }
 
 .icon-button i {
-  font-size: 36px;
+  font-size: 36px; /* Tamaño del icono */
+  color: #1e3a8a; /* Azul oscuro para el icono */
 }
 
 .icon-button:hover {
-  background: linear-gradient(to right, #1e40af, #2563eb);
-  transform: scale(1.05);
+  background-color: #f3f4f6; /* Fondo gris claro al pasar el cursor */
+  border-color: #1e3a8a; /* Contorno azul oscuro al pasar el cursor */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Aumentar la sombra al pasar el cursor */
+  transform: scale(1.05); /* Efecto de agrandamiento */
+}
+
+.icon-button:active {
+  background-color: #e5e7eb; /* Fondo gris más oscuro al hacer clic */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Reducir la sombra al hacer clic */
+  transform: scale(0.95); /* Efecto de reducción */
 }
 
 button {
@@ -87,7 +97,7 @@ button {
   font-size: 16px;
   font-weight: bold;
   color: white;
-  background: linear-gradient(to right, #1e3a8a, #3b82f6);
+  background: linear-gradient(to right, #ffffff, #ffffff);
   border: none;
   border-radius: 12px;
   cursor: pointer;
@@ -95,22 +105,22 @@ button {
 }
 
 button:hover {
-  background: linear-gradient(to right, #1e40af, #2563eb);
+  background: linear-gradient(to right, #ffffff, #ffffff);
 }
 
 @media (max-width: 768px) {
   .icon-button {
-    width: 150px; /* Mantener el ancho fijo en móviles */
-    height: 150px; /* Mantener el alto fijo en móviles */
-    font-size: 28px; /* Aumentar el tamaño del texto */
+    width: 150px;
+    height: 150px;
+    font-size: 28px;
   }
 
   .icon-button i {
-    font-size: 56px; /* Aumentar el tamaño del icono */
+    font-size: 56px;
   }
 
   .button-grid {
-    gap: 30px; /* Aumentar el espacio entre los botones */
+    gap: 30px;
   }
 }
 

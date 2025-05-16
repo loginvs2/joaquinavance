@@ -10,10 +10,20 @@
   <!-- Incluir el cabezal -->
   <%- include('partials/header', { title: 'Usuarios', user: user }) %>
 
-  <h2>Bienvenido <%= user.nombre_usuario %></h2>
-
-  <!-- Contenido principal de admin2 -->
-  <p>Esta es la vista para la administración de usuarios.</p>
+  <div class="button-grid">
+    <button class="icon-button" title="Agregar Cliente" onclick="window.location.href='/agregar-cliente'">
+      <i class="fas fa-user-plus"></i>
+    </button>
+    <button class="icon-button" title="Eliminar Cliente" onclick="window.location.href='/eliminar-cliente'">
+      <i class="fas fa-user-minus"></i>
+    </button>
+    <button class="icon-button" title="Agregar Usuario" onclick="window.location.href='/agregar-usuario'">
+      <i class="fas fa-user-shield"></i>
+    </button>
+    <button class="icon-button" title="Eliminar Usuario" onclick="window.location.href='/eliminar-usuario'">
+      <i class="fas fa-user-slash"></i>
+    </button>
+  </div>
 
   <!-- Incluir la vista parcial para la navegación inferior -->
   <%- include('partials/admin-nav') %>
