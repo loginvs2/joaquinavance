@@ -42,25 +42,26 @@
   </script>
 </head>
 <body>
-  <form id="form_agregar" onsubmit="agregarCliente(event)">
-    <h2>Agregar Cliente</h2>
+  <div class="container-form">
+    <form id="form_agregar" onsubmit="agregarCliente(event)">
+      <h2>Agregar Cliente</h2>
 
-    <div id="mensaje" style="margin-bottom: 10px; font-size: 14px;"></div>
+      <div id="mensaje" style="margin-bottom: 10px; font-size: 14px;"></div>
 
-    <label for="nombre">Nombre del Cliente:</label>
-    <input type="text" id="nombre" name="nombre_cliente" required>
+      <label for="nombre">Nombre del Cliente:</label>
+      <input type="text" id="nombre" name="nombre_cliente" required>
 
-    <label for="dni">DNI:</label>
-    <input type="text" id="dni" name="dni_cliente" required>
+      <label for="dni">DNI:</label>
+      <input type="text" id="dni" name="dni_cliente" required>
 
-    <label for="telefono">Teléfono:</label>
-    <input type="text" id="telefono" name="telefono_cliente" required>
+      <label for="telefono">Teléfono:</label>
+      <input type="text" id="telefono" name="telefono_cliente" required>
 
-    <label for="direccion">Dirección:</label>
-    <input type="text" id="direccion" name="direccion_cliente" required>
+      <label for="direccion">Dirección:</label>
+      <input type="text" id="direccion" name="direccion_cliente" required>
 
-    <button type="submit">Agregar Cliente</button>
-  </form>
-  <%- include('partials/admin-nav', { active: 'admin2' }) %>
+      <button type="submit">Agregar Cliente</button>
+    </form>
+  </div>
 </body>
 </html>

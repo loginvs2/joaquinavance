@@ -50,27 +50,28 @@
   </script>
 </head>
 <body>
-  <form id="form_agregar_usuario" onsubmit="agregarUsuario(event)">
-    <h2>Agregar Usuario</h2>
-    <div id="mensaje" style="margin-bottom: 10px; font-size: 14px;"></div>
+  <div class="container-form">
+    <form id="form_agregar_usuario" onsubmit="agregarUsuario(event)">
+      <h2>Agregar Usuario</h2>
+      <div id="mensaje" style="margin-bottom: 10px; font-size: 14px;"></div>
 
-    <label for="dni_usuario">DNI:</label>
-    <input type="text" id="dni_usuario" name="dni_usuario" maxlength="8" required autocomplete="off">
+      <label for="dni_usuario">DNI:</label>
+      <input type="text" id="dni_usuario" name="dni_usuario" maxlength="8" required autocomplete="off">
 
-    <label for="nombre_usuario">Nombre:</label>
-    <input type="text" id="nombre_usuario" name="nombre_usuario" required autocomplete="off">
+      <label for="nombre_usuario">Nombre:</label>
+      <input type="text" id="nombre_usuario" name="nombre_usuario" required autocomplete="off">
 
-    <label for="tipo_usuario">Tipo de Usuario:</label>
-    <select id="tipo_usuario" name="tipo_usuario" required>
-      <option value="administrador">Administrador</option>
-      <option value="trabajador">Trabajador</option>
-    </select>
+      <label for="tipo_usuario">Tipo de Usuario:</label>
+      <select id="tipo_usuario" name="tipo_usuario" required>
+        <option value="administrador">Administrador</option>
+        <option value="trabajador">Trabajador</option>
+      </select>
 
-    <label for="contraseña">Contraseña:</label>
-    <input type="password" id="contraseña" name="contraseña" required autocomplete="off">
+      <label for="contraseña">Contraseña:</label>
+      <input type="password" id="contraseña" name="contraseña" required autocomplete="off">
 
-    <button type="submit"><i class="fas fa-user-plus"></i> Agregar Usuario</button>
-  </form>
-
+      <button type="submit"><i class="fas fa-user-plus"></i> Agregar Usuario</button>
+    </form>
+  </div>
 </body>
 </html>

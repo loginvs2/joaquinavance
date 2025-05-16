@@ -13,10 +13,18 @@
       const form = document.getElementById('form_registro');
       const mensajeDiv = document.getElementById('mensaje');
 
+      // Validación de DNI
+      const dni = form.dni_cliente.value.trim();
+      if (!/^\d{8}$/.test(dni)) {
+        mensajeDiv.textContent = 'El DNI debe tener exactamente 8 dígitos numéricos.';
+        mensajeDiv.style.color = 'red';
+        return;
+      }
+
       // Crear un objeto con los datos del formulario
       const formData = {
         nombre_cliente: form.nombre_cliente.value,
-        dni_cliente: form.dni_cliente.value,
+        dni_cliente: dni,
         telefono_cliente: form.telefono_cliente.value,
         direccion_cliente: form.direccion_cliente.value,
       };
@@ -44,25 +52,30 @@
   </script>
 </head>
 <body>
-  <form id="form_registro" onsubmit="registrarCliente(event)">
-    <h2>Registrar Cliente</h2>
+      <%- include('partials/headertrabajador', { title: 'CLIENTE', user: user }) %>
 
-    <div id="mensaje" style="margin-bottom: 10px; font-size: 14px;"></div>
+  <div class="container-form">
+    <form id="form_registro" onsubmit="registrarCliente(event)">
+      <h2>Registrar Cliente</h2>
 
-    <label for="nombre">Nombre del Cliente:</label>
-    <input type="text" id="nombre" name="nombre_cliente" required>
+      <div id="mensaje" style="margin-bottom: 10px; font-size: 14px;"></div>
 
-    <label for="dni">DNI:</label>
-    <input type="text" id="dni" name="dni_cliente" required>
+      <label for="nombre">Nombre del Cliente:</label>
+      <input type="text" id="nombre" name="nombre_cliente" required>
 
-    <label for="telefono">Teléfono:</label>
-    <input type="text" id="telefono" name="telefono_cliente" required>
+      <label for="dni">DNI:</label>
+      <input type="text" id="dni" name="dni_cliente" required maxlength="8">
 
-    <label for="direccion">Dirección:</label>
-    <input type="text" id="direccion" name="direccion_cliente" required>
+      <label for="telefono">Teléfono:</label>
+      <input type="text" id="telefono" name="telefono_cliente" required>
 
-    <button type="submit">Registrar Cliente</button>
-  </form>
-  <%- include('partials/bottom-nav', { active: 'prestamo' }) %>
+      <label for="direccion">Dirección:</label>
+      <input type="text" id="direccion" name="direccion_cliente" required>
+
+      <button type="submit">Registrar Cliente</button>
+    </form>
+  </div>
+      <%- include('partials/bottom-nav', { active: 'prestamo' }) %>
+
 </body>
 </html>

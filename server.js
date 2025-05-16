@@ -172,7 +172,7 @@ app.get('/historial', (req, res) => {
         return res.status(500).send('Error al recuperar los pagos');
       }
 
-      res.render('historial', { pagos: resultados, DateTime });
+      res.render('historial', { pagos: resultados, DateTime, user: req.session.user });
     });
   } else {
     res.redirect('/');
@@ -280,7 +280,7 @@ app.post('/deuda', (req, res) => {
   if (isNaN(monto) || monto <= 0) {
     return res.render('deuda', {
       user: req.session.user,
-      error: 'El monto de la deuda debe ser mayor a 0.'
+      error: 'El monto de la préstamo debe ser mayor a 0.'
     });
   }
 
@@ -300,7 +300,7 @@ app.post('/deuda', (req, res) => {
 
       res.render('deuda', {
         user: req.session.user,
-        success: 'Deuda registrada correctamente.'
+        success: 'Préstamo registrada correctamente.'
       });
     }
   );

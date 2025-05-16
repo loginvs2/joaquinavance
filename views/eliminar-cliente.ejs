@@ -38,12 +38,14 @@
   </script>
 </head>
 <body>
-  <form id="form_eliminar" onsubmit="eliminarCliente(event)">
-    <h2>Eliminar Cliente</h2>
-    <div id="mensaje" style="margin-bottom: 10px; font-size: 14px;"></div>
-    <label for="dni_cliente">DNI del Cliente:</label>
-    <input type="text" id="dni_cliente" name="dni_cliente" maxlength="8" required>
-    <button type="submit"><i class="fas fa-user-minus"></i> Eliminar</button>
-  </form>
+  <div class="container-form">
+    <form id="form_eliminar" onsubmit="eliminarCliente(event)">
+      <h2>Eliminar Cliente</h2>
+      <div id="mensaje" style="margin-bottom: 10px; font-size: 14px;"></div>
+      <label for="dni_cliente">DNI del Cliente:</label>
+      <input type="text" id="dni_cliente" name="dni_cliente" maxlength="8" required>
+      <button type="submit"><i class="fas fa-user-minus"></i> Eliminar</button>
+    </form>
+  </div>
 </body>
 </html>

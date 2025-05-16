@@ -1,33 +1,79 @@
+/* Header fijo para trabajador, igual que en admin.css */
+.page-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #1e3a8a;
+  color: white;
+  text-align: left;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.page-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  text-align: left;
+}
+
+.page-header p {
+  margin: 5px 0 0;
+  font-size: 16px;
+  color: white;
+  letter-spacing: 1px;
+  text-align: left;
+}
+
+/* Responsividad para el cabezal */
+@media (max-width: 768px) {
+  .page-header h2 {
+    font-size: 20px;
+  }
+  .page-header p {
+    font-size: 14px;
+  }
+}
+
+/* Ajustar el contenido para que no quede oculto detrás del header */
 body {
   background-color: #ffffff;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
-  padding: 20px;
+  padding: 80px 0 0 0; /* Espacio para el header fijo */
+  min-height: 100vh;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
 }
 
-.container {
+/* Contenedor principal del contenido */
+.container-form {
   width: 100%;
-  max-width: 800px;
-  background-color: #ffffff;
-  padding: 40px 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px 16px 24px 16px;
   box-sizing: border-box;
-  margin-bottom: 100px; /* espacio para el bottom nav */
 }
 
+.container-form h2 {
+  margin-top: 45px;
+}
+
+/* Título */
 h2 {
   text-align: center;
-  margin-bottom: 30px;
+  margin: 0 0 30px 0;
   color: #0f172a;
   font-size: 24px;
 }
 
+/* Tabla */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -56,17 +102,14 @@ tbody td {
   color: #0f172a;
 }
 
-/* Línea horizontal azul entre filas */
 tbody tr + tr {
   border-top: 4px solid #3b82f6;
 }
 
-/* No mostrar bordes verticales */
 table, th, td {
   border: none;
 }
 
-/* Fila de mensaje vacío */
 td[colspan="4"] {
   text-align: center;
   font-style: italic;
@@ -74,49 +117,55 @@ td[colspan="4"] {
   padding: 20px;
 }
 
-/* Hover */
 tbody tr:hover {
   background-color: #f1f5ff;
 }
 
-/* Estilo para el bottom-nav */
+/* Barra de navegación inferior para trabajador */
 .bottom-nav {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: #1e3a8a; /* Azul oscuro */
-  padding: 10px 0;
   position: fixed;
   bottom: 0;
   width: 100%;
+  background-color: #fff;
+  padding: 10px 0;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 100;
 }
 
-.nav-item {
+.bottom-nav .nav-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #ffffff; /* Blanco */
+  color: gray;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 12px;
   transition: color 0.3s ease;
 }
 
-.nav-item i {
-  font-size: 20px;
+.bottom-nav .nav-item i {
+  font-size: 24px;
   margin-bottom: 5px;
 }
 
-.nav-item.active {
-  color: #3b82f6; /* Azul claro */
+.bottom-nav .nav-item.active,
+.bottom-nav .nav-item:hover {
+  color: #1e3a8a;
 }
 
-.nav-item:hover {
-  color: #60a5fa; /* Azul más claro */
+.bottom-nav .nav-item.active i,
+.bottom-nav .nav-item:hover i {
+  color: #1e3a8a;
 }
 
-/* Responsive estilo tarjeta en móviles */
+/* Responsive para móviles */
 @media (max-width: 600px) {
+  .container-form {
+    padding: 18px 4px 16px 4px;
+    max-width: 100%;
+  }
   table,
   thead,
   tbody,

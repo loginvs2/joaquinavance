@@ -78,3 +78,19 @@ button:hover {
     font-size: 14px;
   }
 }
+
+/* Puedes agregar esto al final de cada CSS de formulario, por ejemplo: agregar-usuario.css, eliminar-usuario.css, eliminar-cliente.css, prestamo.css */
+.container-form {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 32px 16px 24px 16px; /* Espacio arriba, laterales y abajo */
+  box-sizing: border-box;
+}
+
+@media (max-width: 500px) {
+  .container-form {
+    padding: 18px 4px 16px 4px;
+    max-width: 100%;
+  }
+}

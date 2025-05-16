@@ -22,32 +22,36 @@
   </script>
 </head>
 <body>
-  <form action="/deuda" method="POST">
-    <h2>Agregar Deuda</h2>
+      <%- include('partials/headertrabajador', { title: 'PRESTAMO', user: user }) %>
 
-    <!-- Mostrar mensajes de error o éxito -->
-    <% if (typeof error !== 'undefined') { %>
-      <p style="color: red;"><%= error %></p>
-    <% } %>
-    <% if (typeof success !== 'undefined') { %>
-      <p style="color: green;"><%= success %></p>
-    <% } %>
+  <div class="container-form">
+    <form action="/deuda" method="POST">
+      <h2>Agregar Deuda</h2>
 
-    <label for="dni_cliente">DNI del Cliente:</label>
-    <input type="text" id="dni_cliente" name="dni_cliente" required>
-    <button type="button" onclick="buscarCliente()">Buscar</button>
-    <p id="cliente_nombre"></p>
-    <input type="hidden" id="id_cliente" name="id_cliente" required>
+      <!-- Mostrar mensajes de error o éxito -->
+      <% if (typeof error !== 'undefined') { %>
+        <p style="color: red;"><%= error %></p>
+      <% } %>
+      <% if (typeof success !== 'undefined') { %>
+        <p style="color: green;"><%= success %></p>
+      <% } %>
 
-    <label for="monto_deuda">Monto de la Deuda (S/.):</label>
-    <input type="number" step="0.01" id="monto_deuda" name="monto_deuda" required>
+      <label for="dni_cliente">DNI del Cliente:</label>
+      <input type="text" id="dni_cliente" name="dni_cliente" required>
+      <button type="button" onclick="buscarCliente()">Buscar</button>
+      <p id="cliente_nombre"></p>
+      <input type="hidden" id="id_cliente" name="id_cliente" required>
 
-    <label for="descripcion_deuda">Descripción:</label>
-    <textarea id="descripcion_deuda" name="descripcion_deuda" required></textarea>
+      <label for="monto_deuda">Monto de la Deuda (S/.):</label>
+      <input type="number" step="0.01" id="monto_deuda" name="monto_deuda" required>
 
-    <input type="hidden" name="id_usuario" value="<%= user.id_usuario %>">
-    <button type="submit">Registrar Deuda</button>
-  </form>
-  <%- include('partials/bottom-nav', { active: 'deuda' }) %>
+      <label for="descripcion_deuda">Descripción:</label>
+      <textarea id="descripcion_deuda" name="descripcion_deuda" required></textarea>
+
+      <input type="hidden" name="id_usuario" value="<%= user.id_usuario %>">
+      <button type="submit">Registrar Deuda</button>
+    </form>
+  </div>
+      <%- include('partials/bottom-nav', { active: 'deuda' }) %>
 </body>
 </html>
