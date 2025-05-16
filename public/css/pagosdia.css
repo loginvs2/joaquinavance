@@ -1,10 +1,11 @@
 .pagosdia-container {
-  max-width: 700px;
-  margin: 100px auto 0 auto;
-  padding: 24px;
+  width: 100%;
+  margin: 100px 0 0 0;
+  padding: 24px 20px;
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(30, 58, 138, 0.08);
+  border-radius: 0;
+  box-shadow: none;
+  box-sizing: border-box;
 }
 
 .filtro-titulo {
@@ -33,6 +34,8 @@
   border-radius: 6px;
   border: 1px solid #d1d5db;
   font-size: 14px;
+  width: 180px;
+  box-sizing: border-box;
 }
 
 .filtro-form button {
@@ -73,12 +76,14 @@
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
+  box-sizing: border-box;
 }
 
 .tabla-pagos th, .tabla-pagos td {
   border: 1px solid #d1d5db;
-  padding: 8px;
+  padding: 10px;
   text-align: left;
+  font-size: 14px;
 }
 
 .tabla-pagos th {
@@ -92,4 +97,27 @@
 
 .tabla-pagos tr:hover {
   background-color: #e5f3ff;
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 600px) {
+  .pagosdia-container {
+    padding: 10px 2px;
+    margin: 80px 0 0 0;
+  }
+
+  .filtro-form {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .filtro-form input {
+    width: 100%;
+  }
+
+  .tabla-pagos th, .tabla-pagos td {
+    padding: 8px 4px;
+    font-size: 12px;
+  }
 }
