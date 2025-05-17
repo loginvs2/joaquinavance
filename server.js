@@ -216,15 +216,19 @@ app.post('/registrar-pago', upload.single('comprobante_pago'), async (req, res) 
 
   if (metodo_pago === 'yape' && req.file) {
     try {
+      console.log('Archivo recibido:', req.file);
       const result = await cloudinary.uploader.upload(req.file.path, {
         folder: 'comprobantes'
       });
+      console.log('Resultado Cloudinary:', result);
       comprobante = result.secure_url;
-      fs.unlinkSync(req.file.path); // Borra el archivo temporal
+      fs.unlinkSync(req.file.path);
     } catch (err) {
+      console.error('Error Cloudinary:', err);
       return res.send('Error al subir la imagen a Cloudinary');
     }
   }
+  
 
   db.query('SELECT monto_deuda FROM deuda WHERE id_deuda = ?', [id_deuda], (err, results) => {
     if (err) return res.send('Error al verificar la deuda');
