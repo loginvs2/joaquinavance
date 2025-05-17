@@ -4,14 +4,23 @@ const session = require('express-session');
 const bcrypt = require('bcrypt');
 const path = require('path');
 const db = require('./db');
-const multer = require('multer');
+const cloudinary = require('cloudinary').v2;
+const fs = require('fs');
 const { DateTime } = require('luxon');
 const MySQLStore = require('express-mysql-session')(session);
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' }); // Carpeta temporal
+
 
 const horaPeru = DateTime.now()
   .setZone('America/Lima')
   .toFormat("yyyy-MM-dd HH:mm:ss");
-const upload = multer({ dest: 'uploads/' });
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -201,27 +210,30 @@ app.get('/api/cliente', (req, res) => {
   });
 });
 
-app.post('/registrar-pago', upload.single('comprobante_pago'), (req, res) => {
+app.post('/registrar-pago', upload.single('comprobante_pago'), async (req, res) => {
   const { id_deuda, monto_pagado, metodo_pago, id_usuario } = req.body;
-  const comprobante = metodo_pago === 'yape' && req.file ? req.file.filename : 'efectivo';
+  let comprobante = 'efectivo';
+
+  if (metodo_pago === 'yape' && req.file) {
+    try {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: 'comprobantes'
+      });
+      comprobante = result.secure_url;
+      fs.unlinkSync(req.file.path); // Borra el archivo temporal
+    } catch (err) {
+      return res.send('Error al subir la imagen a Cloudinary');
+    }
+  }
 
   db.query('SELECT monto_deuda FROM deuda WHERE id_deuda = ?', [id_deuda], (err, results) => {
     if (err) return res.send('Error al verificar la deuda');
-
     if (results.length === 0) return res.send('Deuda no encontrada');
-
     const montoActual = results[0].monto_deuda;
-
     const monto = parseFloat(monto_pagado);
 
-    if (monto <= 0) {
-      return res.send('El monto debe ser mayor a 0');
-    }
-
-    if (monto > montoActual) {
-      return res.send(`El monto pagado (S/.${monto}) no puede ser mayor a la deuda actual (S/.${montoActual})`);
-    }
-
+    if (monto <= 0) return res.send('El monto debe ser mayor a 0');
+    if (monto > montoActual) return res.send(`El monto pagado (S/.${monto}) no puede ser mayor a la deuda actual (S/.${montoActual})`);
 
     db.query('INSERT INTO pago (id_deuda, id_usuario, monto_pagado, fecha_pago, comprobante_pago) VALUES (?, ?, ?, ?, ?)',
       [id_deuda, id_usuario, monto_pagado, horaPeru, comprobante], (err2, result) => {
@@ -229,8 +241,6 @@ app.post('/registrar-pago', upload.single('comprobante_pago'), (req, res) => {
 
         db.query('UPDATE deuda SET monto_deuda = monto_deuda - ? WHERE id_deuda = ?', [monto_pagado, id_deuda], (err3) => {
           if (err3) return res.send('Error al actualizar la deuda');
-
-          // Enviar respuesta exitosa con id_pago para redirigir
           res.send(`OK:${result.insertId}`);
         });
       });
